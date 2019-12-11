@@ -12,9 +12,9 @@ namespace R2000_Library
     {
         public void config()
         {
-            //string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\Config.txt"); // Run this to make the executable
+            //string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\Config.txt"); // this is were the file need to be to run, but different software sometimes has problems. 
 
-            string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work.
+            string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work, or you need to add the file location to were your program operates from.
 
             string[] stringcharacteristics = { "IPaddress", "SamplesPerScan", "ScanDirection", "ScanFrequency", "FilterType", "FilterWidth", "ScanDataType", "ScanStartAngle", "ScanFieldAngle", "MaxRange", "HMIDisplayType", "HMIDisplayText1", "HMIDisplayText2" };
 
