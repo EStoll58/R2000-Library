@@ -1,0 +1,18 @@
+﻿This is your parameters text document. Enter in different values below if you would like to change the settings.
+
+!!!!!Do not put any spaces between the settings, equals sign and the value!!!!!!
+
+
+IPaddress=169.254.194.202;    // Enter in the IP adress of the R2000 here
+SamplesPerScan=2400;          // The scan resolution in 360 degrees; Valid values are 25200,16800,12600,10080,8400,7200,6300,5600,5040,4200,3600,3150,2800,2520,2400,2100,1800,1680,1440,1200,900,800,720,600,480,450,400,360
+ScanDirection=ccw;            // Direction of R2000 spin; cw or ccw, lower case. 
+ScanFrequency=10;             // R2000 spin frequency;integer values from 10-100hz, depending on model
+FilterType=none;              // Setting the filter type; none, average, median, maximum, remission
+FilterWidth=2;                // How many points are grouped together for the filter; Valid Values are 2,4,8,16;
+ScanDataType=A;               // Scan packet type that is being sent by R2000; A (Distance only), B (Distance and amplitude), C (Distance and amplitude compact)
+ScanStartAngle=0;           // Starting angle location; Valid values are -180 to +180
+ScanFieldAngle=360;           // The field of view you want from the R2000, please keep in mind that it will start at your desired Scan Start Angle and depending on Scan Direction will continue in a possitive or negative direction 
+MaxRange=2000;                  // Setting max background distnace for data
+HMIDisplayType=static_text;           //What would you like the R2000 to display; static_logo, static_text, off
+HMIDisplayText1=Hello;        //If text was chosen for display type, enter in text for the top line. 30 character max.
+HMIDisplayText2=World!;       //If text was chosen for display type, enter in text for the bottom line. 30 character max. 
