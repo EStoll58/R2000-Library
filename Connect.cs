@@ -22,6 +22,8 @@ namespace R2000_Library
         {
             try
             {
+                //Reqesting a Port and Handle from the R2000, Storing them in Var.Port and Var.Handle
+
                 //Variables
                 string responseFromR2000;
                 //Create a request for the URL.
@@ -105,6 +107,7 @@ namespace R2000_Library
         }
         public void gettcpsocket()
         {
+            //Sending the http command to connect to previouse established Port
             try
             {
                 Var.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

@@ -11,11 +11,13 @@ namespace R2000_Library
     public class Configuration
     {
         public void config()
-        {
+        {   
+            // There might be problems reading were the Config.txt file is. please see both options below. 
             //string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\Config.txt"); // this is were the file need to be to run, but different software sometimes has problems. 
 
-            string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work, or you need to add the file location to were your program operates from.
+            string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work, or/and you need to add the file location to were your program operates from.
 
+            // if there are any new elements added to config.txt, they need to be added below in the exact spelling. Then store the value read in Var.***** below. 
             string[] stringcharacteristics = { "IPaddress", "SamplesPerScan", "ScanDirection", "ScanFrequency", "FilterType", "FilterWidth", "ScanDataType", "ScanStartAngle", "ScanFieldAngle", "MaxRange", "HMIDisplayType", "HMIDisplayText1", "HMIDisplayText2" };
 
             string[] stringvariables = new string[stringcharacteristics.GetLength(0)];
@@ -48,13 +50,10 @@ namespace R2000_Library
                 return;
             }
 
-            //Each variable need manually entered in
+            // after adding a new parameter/element, it needs to be manually entered in a Var.*****, which then needs to be added to Var.cs
+            // the array placement directly coresponds to the posistion in stringcharacteristics[]
             try
             {
-
-
-
-
 
                 Var.IPaddress = stringvariables[0];
                 Var.SamplesPerScan = Convert.ToInt32(stringvariables[1]);
@@ -78,9 +77,6 @@ namespace R2000_Library
                 Var.HMIDisplayType = stringvariables[10];
                 Var.HMIDisplayText1 = stringvariables[11];
                 Var.HMIDisplayText2 = stringvariables[12];
-
-
-
 
                 Console.WriteLine("Success!\r\n");
             }

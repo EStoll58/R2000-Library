@@ -2,6 +2,8 @@
 
 !!!!!Do not put any spaces between the settings, equals sign and the value!!!!!!
 
+If adding new parameters/elements, add them to the list in Configurations.cs (line 20)
+
 
 IPaddress=169.254.194.202;    // Enter in the IP adress of the R2000 here
 SamplesPerScan=2400;          // The scan resolution in 360 degrees; Valid values are 25200,16800,12600,10080,8400,7200,6300,5600,5040,4200,3600,3150,2800,2520,2400,2100,1800,1680,1440,1200,900,800,720,600,480,450,400,360

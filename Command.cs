@@ -5,8 +5,6 @@ using System.Net;
 /*********************************************************
 Command.cs stores the Http commands that you can send to the R2000
 
-How to call on these programs is discussed at the top of Program.cs
-
 A simple command protocol using HTTP requests (and responses) is provided in order to parametrize and control the
 sensor. The HTTP can be accessed using a standard web browser or by establishing temporary TCP/IP connections to
 the HTTP port.
@@ -24,6 +22,7 @@ Each HTTP command is constructed as Uniform Resource Identifier
 
 The console feedback can be disabled by commenting out the Console.WriteLine(s) that are in each class
 
+For more details, please see the R2000 manual https://files.pepperl-fuchs.com/webcat/navi/productInfo/doct/doct3469e.pdf?v=20190712154957
 
  *********************************************************/
 namespace R2000_Library
@@ -169,6 +168,7 @@ namespace R2000_Library
 
         public void errorcheck()
         {
+            // Recognized that an error occured and exits system. 
             int num = Var.responseFromR2000.IndexOf("error_code");
             string error = Var.responseFromR2000.Substring(num + 12, 1);
             //Console.WriteLine("error code = " + error);
@@ -183,13 +183,6 @@ namespace R2000_Library
                 Console.WriteLine("Command not successful, exiting system");
                 Environment.Exit(0);
             }
-
-            // int num = text.IndexOf(stringcharacteristics[a]);
-            // //Console.WriteLine("int num = " + num);
-            // string substring = text.Substring(num+stringlength[a], 40);
-            // //Console.WriteLine("substring = " + substring);
-            // stringvariables[a] = substring.Substring(0,(substring.IndexOf(';')));
-            // Console.WriteLine(stringcharacteristics[a] + " = " + stringvariables[a]);
 
         }
 

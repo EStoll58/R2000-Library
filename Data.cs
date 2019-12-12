@@ -12,12 +12,12 @@ namespace R2000_Library
 
         public void tcprecieve(int size)
         {
+            // A simple tcp recieve structure, if needed the buffer and timeout can be adjusted
             Var.Socket.ReceiveTimeout = 3000;
             Var.Socket.ReceiveBufferSize = 150000; // At 25200 data points and 360 degree field of veiw, 106576 bytes are sent per scan.  
             Var.data = new byte[size];
             try
             {
-                //Thread.Sleep(250);  
                 Var.Socket.Receive(Var.data);
                 //Console.WriteLine("\r\nVar.data = \r\n" + string.Join(" ",Var.data));   
             }
@@ -29,6 +29,7 @@ namespace R2000_Library
 
         public void udprecieve()
         {
+            // Currently not working. Needs fixed. 
             UdpClient receivingUdpClient = new UdpClient(Var.Port);
 
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse(Var.IPaddress), Var.Port);
@@ -47,6 +48,24 @@ namespace R2000_Library
 
         public void initialize()
         {
+
+            /******************************
+            This needs to be run if bulkdatatcp(); is going to be used.
+            Accepts packets individually, reads and catagorizes information about each. 
+            Only accepts 1 full scan worth of packets. 
+
+            Also calculates and stores the angular value of each data point in Var.angulardata
+
+            Important variables from here are:
+
+            Var.packetamount = the number of packets in a single scan, this currently can range from 1 to 76
+            Var.byteamount = the number of bytes in an entire scan
+            Var.packetsize[] = list of the packet sizes stored in an array
+            Var.headersize = the size of the header for each packet
+            Var.numscanpoints = how many points are in a full scan
+            Var.angulardata[] = list of corresponding angles to scan data
+
+            *******************************/
 
             Var.numscanpoints = 0;
             int magic;
@@ -112,7 +131,6 @@ namespace R2000_Library
             {
                 Console.WriteLine("First iteration Error: Magic != 41564");
                 return;
-
             }
 
             if (packetcount > 1)
@@ -223,24 +241,24 @@ namespace R2000_Library
                 }
             }
 
-            Console.WriteLine("Angular Data =\r\n " + string.Join(" ", Var.angulardata));
-
-
-
-            /******************************
-            Important variables from here are:
-
-            Var.packetamount = the number of packets in a single scan
-            Var.byteamount = the number of bytes in an entire scan
-            Var.packetsize[] = this has all of the packet sizes stored in an arrary
-            Var.headersize = the size of the header for each packet
-
-            *******************************/
+            //Console.WriteLine("Angular Data =\r\n " + string.Join(" ", Var.angulardata));
         }
 
 
         public void bulkdatatcp()
         {
+            /**************************** 
+            This is an optimized data recieve/store/check/convert program
+
+            To increase speed and efficiency, all packets/bytes are accepted at once. This byte amount is calculated in initialize()
+            Typically the software can execute and run faster than the hardware. This causes errors because full scans have not been sent yet creating zeros in the data.
+            To fix this problem packetcheck() verifies if all packets have been sent for a full scan.
+            If not complete, the program will attempt to recieve the remaining bytes of information to complete a full scan.
+            After all data from a single scan have been accepted, a magiccheck() is executed to make sure all packets are in the correct place.
+            If all conditions are satisfied then the data is stripped of all headers, placing the distance information in Var.rawmeasurement.
+            Var.rawmeasurementdata (which is still in byte form) is converted into an integer array Var.measurementdata
+
+            *****************************/
             allpackets = false;
             try
             {
@@ -280,6 +298,7 @@ namespace R2000_Library
                 int rawdataamount = Var.byteamount - Var.remainingbytes;
                 Buffer.BlockCopy(Var.data, 0, Var.rawdata, rawdataamount, Var.remainingbytes);
                 //Console.WriteLine("\r\nNew Var.rawdata = \r\n" + string.Join(" ",Var.rawdata));
+
                 // then read data and try to run packetcheck() again
                 packetcheck();
 
@@ -344,7 +363,8 @@ namespace R2000_Library
 
         public void background()
         {
-            //Takes the average of 3 scans for the background 
+            //Takes the average of 3 scans for the background
+            //Stores data in Var.background
             bulkdatatcp(); //Initializing some values and parameters that are needed for this class
 
             int[] background1 = new int[Var.measurmentdata.Length];
@@ -401,6 +421,7 @@ namespace R2000_Library
 
         public void packetcheck()
         {
+            // The program check the first 4 bytes of each packet (where it is supposed to be) to verify each packet is there
             int offset = 0;
             for (int i = 0; i < Var.packetamount; i++)
             {
@@ -427,6 +448,8 @@ namespace R2000_Library
                 else
                 {
                     Var.lastpacketnumber = (Var.rawdata[offset + 12] + (Var.rawdata[offset + 13] << 8));
+                    //Console.WriteLine("lastpacketnumber = " + Var.lastpacketnumber);
+
                     allpackets = true;
                     //Console.WriteLine("all packets = true");
                 }
@@ -435,7 +458,7 @@ namespace R2000_Library
 
         public void magiccheck()
         {
-
+            // Verifies that all packets begin with magic
             for (int i = 0; i < Var.packetamount; i++)
             {
                 int offset = 0;
@@ -468,6 +491,7 @@ namespace R2000_Library
 
         public void magicfinder()
         {
+            // If data error, scan is stopped, buffer is cleared, then scan begins agian. 
             try
             {
                 int a = 10000;
