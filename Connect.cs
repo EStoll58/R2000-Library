@@ -8,9 +8,7 @@ using System.Net.Sockets;
 
 CommunicationSetup.cs stores the classes that set up a TCP or UDP connection and starting sockets.
 
-Notes in program.cs
-
-Note- A tcp request has to be made before a udp connection can be created. This is built into connectudp(). (calls on connecttcp before running)
+Still working on UDP communication
 
  *********************************************************/
 
@@ -63,6 +61,24 @@ namespace R2000_Library
                 Var.connection = false;
             }
         }
+        public void gettcpsocket()
+        {
+            //Sending the http command to connect to previouse established Port
+            try
+            {
+                Var.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Console.WriteLine("Establishing TCP Connection to " + Var.IPaddress + " at port " + Var.Port);
+                Var.Socket.Connect(IPAddress.Parse(Var.IPaddress), Var.Port);
+                Console.WriteLine("Connection established\r\n");
+                Var.connection = true;
+            }
+            catch
+            {
+                Console.WriteLine("Failed to establish TCP socket");
+                Var.connection = false;
+            }
+
+        }
 
         public void connectudp()
         {
@@ -105,24 +121,7 @@ namespace R2000_Library
                 Var.connection = false;
             }
         }
-        public void gettcpsocket()
-        {
-            //Sending the http command to connect to previouse established Port
-            try
-            {
-                Var.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                Console.WriteLine("Establishing TCP Connection to " + Var.IPaddress + " at port " + Var.Port);
-                Var.Socket.Connect(IPAddress.Parse(Var.IPaddress), Var.Port);
-                Console.WriteLine("Connection established\r\n");
-                Var.connection = true;
-            }
-            catch
-            {
-                Console.WriteLine("Failed to establish TCP socket");
-                Var.connection = false;
-            }
 
-        }
 
         public void getudpsocket()
         {
