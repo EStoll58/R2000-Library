@@ -101,6 +101,7 @@ namespace R2000_Library
         //All parameters from Config.txt are sent to the R2000
         public void setparameters()
         {
+            Console.WriteLine("Setting Parameters");
             // Parameter setup using the set_parameter function.
             string[] setparameterlist = { "samples_per_scan", "scan_direction", "scan_frequency", "filter_type", "filter_width", "hmi_display_mode", "hmi_static_text_1", "hmi_static_text_2" };
             object[] varparameterlist = { Var.SamplesPerScan, Var.ScanDirection, Var.ScanFrequency, Var.FilterType, Var.FilterWidth, Var.HMIDisplayType, Var.HMIDisplayText1, Var.HMIDisplayText2 };
@@ -117,10 +118,14 @@ namespace R2000_Library
                 }
                 errorcheck();
             }
-
+            Console.WriteLine("\r\n");
+        }
+        public void setscanoutputconfig()
+        {
+            Console.WriteLine("Setting Scan Output Config");
             // Parameter setup using the set_scanoutput_config function. 
-            string[] setscanouputlist = { "packet_type", "start_angle", "max_num_points_scan" };
-            object[] varscanoutputlist = { Var.ScanDataType, Var.ScanStartAngle, Var.maxnumpointsscan };
+            string[] setscanouputlist = { "packet_type", "start_angle", "max_num_points_scan", "skip_scans", "watchdog", "watchdogtimeout"};
+            object[] varscanoutputlist = { Var.ScanDataType, Var.ScanStartAngle, Var.maxnumpointsscan, Var.SkipScans, Var.Watchdog, Var.WatchdogTimout};
             for (int a = 0; a < setscanouputlist.GetLength(0); a++)
             {
                 WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/set_scanoutput_config?handle=" + Var.Handle + "&" + setscanouputlist[a] + "=" + varscanoutputlist[a]);
@@ -134,13 +139,14 @@ namespace R2000_Library
                 }
                 errorcheck();
             }
+            Console.WriteLine("\r\n");
         }
 
-        //Request for all current settings are sent
+        //Request for all current parameters
         public void getparameters()
         {
-            WebRequest FactoryResetRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_parameter?list=vendor;serial;revision_fw;revision_hw;max_connections;feature_flags;radial_range_min;radial_range_max;radial_resolution;angular_fov;angular_resolution;ip_mode;ip_address;subnet_mask;gateway;scan_frequency;scan_direction;samples_per_scan;scan_frequency_measured;status_flags;load_indication;device_family;mac_address;hmi_display_mode;hmi_language;hmi_button_lock;hmi_parameter_lock;ip_mode_current;ip_address_current;subnet_mask_current;gateway_current;system_time_raw;user_tag;user_notes");
-            Console.WriteLine("\r\nParameters and Settings \r\nSending: http://" + Var.IPaddress + "/cmd/get_parameter?list=vendor;serial;revision_fw;revision_hw;max_connections;feature_flags;radial_range_min;radial_range_max;radial_resolution;angular_fov;angular_resolution;ip_mode;ip_address;subnet_mask;gateway;scan_frequency;scan_direction;samples_per_scan;scan_frequency_measured;status_flags;load_indication;device_family;mac_address;hmi_display_mode;hmi_language;hmi_button_lock;hmi_parameter_lock;ip_mode_current;ip_address_current;subnet_mask_current;gateway_current;system_time_raw;user_tag;user_notes");
+            WebRequest FactoryResetRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_parameter");
+            Console.WriteLine("Parameters Settings \r\nSending: http://" + Var.IPaddress + "/cmd/get_parameter?");
             WebResponse FactoryResetResponse = FactoryResetRequest.GetResponse();
             using (Stream dataStream = FactoryResetResponse.GetResponseStream())
             {
@@ -151,6 +157,20 @@ namespace R2000_Library
             errorcheck();
         }
 
+        //Request for all current scan output configurations on Var.Handle
+        public void getscanoutputconfig()
+        {
+            WebRequest FactoryResetRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_scanoutput_config?handle=" + Var.Handle);
+            Console.WriteLine("\r\nScan Output Settings \r\nSending: http://" + Var.IPaddress + "/cmd/get_scanoutput_config?handle=" + Var.Handle);
+            WebResponse FactoryResetResponse = FactoryResetRequest.GetResponse();
+            using (Stream dataStream = FactoryResetResponse.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(dataStream);
+                Var.responseFromR2000 = reader.ReadToEnd();
+                Console.WriteLine("Response: \r\n" + Var.responseFromR2000);
+            }
+            errorcheck();
+        }
         //Factory reset of the device
         public void factoryreset()
         {

@@ -38,19 +38,23 @@ connect.*******();    // This class houses all the classes that establish commun
 
 command.*******();    // This class houses all the classes that send Http commands to the R2000, options are listed below
         
-        command.startstream();      // This program will start the data stream on the handle and socket that was earlier specified
+        command.startstream();          // This program will start the data stream on the handle and socket that was earlier specified
         
-        command.stopstream();       // This program will stop the data stream that was started on the handle and socket
+        command.stopstream();           // This program will stop the data stream that was started on the handle and socket
         
-        command.watchdog();         // This is a mandatory program to keep the handle from closing. Handle will automatically close in 60 seconds if watchdog isnt refreshed at least every 60 seconds. 
+        command.watchdog();             // This is a mandatory program to keep the handle from closing. Handle will automatically close in 60 seconds if watchdog isnt refreshed at least every 60 seconds. 
         
-        command.handlerelease();    // This program terminates the handle (This should be used if the watchdog is turned off)
+        command.handlerelease();        // This program terminates the handle (This should be used if the watchdog is turned off)
         
-        command.setparameters();    // This program sends all the parameters to the R2000 that were stored into Config.txt
+        command.setparameters();        // This program sends all the parameters to the R2000 that were stored into Config.txt
+
+        command.setscanoutputconfig();  // This program sets data configuration on set handle
         
-        command.getparameters();    // This program retrieves all current settings stored on the R2000
+        command.getparameters();        // This program retrieves all current parameters stored on the R2000
+
+        command.getscanoutputconfig();  // This program retrireves all current scan output settings on handle
         
-        command.factoryreset();     // This program restores the R2000 to factory settings
+        command.factoryreset();         // This program restores the R2000 to factory settings
 
 data.*******();       // This class houses all the classes that handles the data
         
@@ -80,8 +84,11 @@ configuration.config();             // This must be run at the begining of your 
 connect.connecttcp();               // Requests a TCP handle and port from R2000
 connect.gettcpsocket();             // Establishes tcp socket to send data
 
-command.setparameters();            // Sends list parameters to R2000
-command.getparameters();            // Request sent to R2000 to list all stored parameters
+command.setparameters();            // Sends stored parameters to R2000
+command.getparameters();            // Requests list of all stored parameters
+
+command.setscanoutputconfig();      // Sends stored scan output config settings
+command.getscanoutputconfig();      // Requests list of all stored settings on handle
 
 command.watchdog();                 // To keep handle open, send this command repeatedly at intervals <60 seconds
 
