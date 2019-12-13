@@ -12,7 +12,7 @@ ScanDirection=ccw;            // Direction of R2000 spin; cw or ccw, lower case.
 ScanFrequency=10;             // R2000 spin frequency;integer values from 10-100hz, depending on model
 FilterType=none;              // Setting the filter type; none, average, median, maximum, remission
 FilterWidth=2;                // How many points are grouped together for the filter; Valid Values are 2,4,8,16;
-HMIDisplayType=static_text;   //What would you like the R2000 to display; static_logo, static_text, off
+HMIDisplayMode=off;   //What would you like the R2000 to display; off, static_logo, static_text, bargraph_distance, bargraph_echo, bargraph_reflector, application_bitmap, application_text
 HMIDisplayText1=Hello;        //If text was chosen for display type, enter in text for the top line. 30 character max.
 HMIDisplayText2=World!;       //If text was chosen for display type, enter in text for the bottom line. 30 character max. 
 
@@ -22,7 +22,7 @@ ScanStartAngle=0;           // Starting angle location; Valid values are -180 to
 ScanFieldAngle=360;           // The field of view you want from the R2000, please keep in mind that it will start at your desired Scan Start Angle and depending on Scan Direction will continue in a possitive or negative direction 
 SkipScans=0;				// This will limit the number of scans you reiceve by skipping the number of scans noted
 Watchdog=on;				// Turn Watchdog on/off, watchdog should be kept on. not closing out handles will cause errors and severe lag
-WatchdogTimeout=60000;				// Sets the time limit when a handle will be closed if watchdog is not fed. value in miliseconds
+WatchdogTimeout=60000;		// Sets the time limit when a handle will be closed if watchdog is not fed. value in miliseconds. values can range from 1 - 500 seconds. 
 
 //Background data settings
 MaxRange=2000;                  // Setting max background distnace for data

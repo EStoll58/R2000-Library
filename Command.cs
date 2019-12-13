@@ -65,11 +65,11 @@ namespace R2000_Library
             try
             {
                 //Feeding the Watchdog
-                WebRequest FeedWatchdogRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/feed_watchdog?handle=" + Var.Handle);
-                WebResponse FeedWatchdogresponse = FeedWatchdogRequest.GetResponse();
+                WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/feed_watchdog?handle=" + Var.Handle);
+                WebResponse Response = Request.GetResponse();
 
                 //Console.WriteLine("Feeding Watchdog \r\nSending: http://" + Var.IPaddress + "/cmd/feed_watchdog?handle=" + Var.Handle);
-                using (Stream dataStream = FeedWatchdogresponse.GetResponseStream())
+                using (Stream dataStream = Response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(dataStream);
                     Var.responseFromR2000 = reader.ReadToEnd();
@@ -104,13 +104,13 @@ namespace R2000_Library
             Console.WriteLine("Setting Parameters");
             // Parameter setup using the set_parameter function.
             string[] setparameterlist = { "samples_per_scan", "scan_direction", "scan_frequency", "filter_type", "filter_width", "hmi_display_mode", "hmi_static_text_1", "hmi_static_text_2" };
-            object[] varparameterlist = { Var.SamplesPerScan, Var.ScanDirection, Var.ScanFrequency, Var.FilterType, Var.FilterWidth, Var.HMIDisplayType, Var.HMIDisplayText1, Var.HMIDisplayText2 };
+            object[] varparameterlist = { Var.SamplesPerScan, Var.ScanDirection, Var.ScanFrequency, Var.FilterType, Var.FilterWidth, Var.HMIDisplayMode, Var.HMIDisplayText1, Var.HMIDisplayText2 };
             for (int a = 0; a < setparameterlist.GetLength(0); a++)
             {
                 WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/set_parameter?" + setparameterlist[a] + "=" + varparameterlist[a]);
                 Console.WriteLine("Setting " + setparameterlist[a] + " = " + varparameterlist[a] + "\r\nSending: http://" + Var.IPaddress + "/cmd/set_parameter?" + setparameterlist[a] + "=" + varparameterlist[a]);
-                WebResponse response = Request.GetResponse();
-                using (Stream dataStream = response.GetResponseStream())
+                WebResponse Response = Request.GetResponse();
+                using (Stream dataStream = Response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(dataStream);
                     Var.responseFromR2000 = reader.ReadToEnd();
@@ -130,8 +130,8 @@ namespace R2000_Library
             {
                 WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/set_scanoutput_config?handle=" + Var.Handle + "&" + setscanouputlist[a] + "=" + varscanoutputlist[a]);
                 Console.WriteLine("Setting " + setscanouputlist[a] + " = " + varscanoutputlist[a] + "\r\nSending: http://" + Var.IPaddress + "/cmd/set_scanoutput_config?handle=" + Var.Handle + "&" + setscanouputlist[a] + "=" + varscanoutputlist[a]);
-                WebResponse response = Request.GetResponse();
-                using (Stream dataStream = response.GetResponseStream())
+                WebResponse Response = Request.GetResponse();
+                using (Stream dataStream = Response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(dataStream);
                     Var.responseFromR2000 = reader.ReadToEnd();
@@ -145,10 +145,10 @@ namespace R2000_Library
         //Request for all current parameters
         public void getparameters()
         {
-            WebRequest FactoryResetRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_parameter");
+            WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_parameter");
             Console.WriteLine("Parameters Settings \r\nSending: http://" + Var.IPaddress + "/cmd/get_parameter?");
-            WebResponse FactoryResetResponse = FactoryResetRequest.GetResponse();
-            using (Stream dataStream = FactoryResetResponse.GetResponseStream())
+            WebResponse Response = Request.GetResponse();
+            using (Stream dataStream = Response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
                 Var.responseFromR2000 = reader.ReadToEnd();
@@ -160,10 +160,10 @@ namespace R2000_Library
         //Request for all current scan output configurations on Var.Handle
         public void getscanoutputconfig()
         {
-            WebRequest FactoryResetRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_scanoutput_config?handle=" + Var.Handle);
+            WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/get_scanoutput_config?handle=" + Var.Handle);
             Console.WriteLine("\r\nScan Output Settings \r\nSending: http://" + Var.IPaddress + "/cmd/get_scanoutput_config?handle=" + Var.Handle);
-            WebResponse FactoryResetResponse = FactoryResetRequest.GetResponse();
-            using (Stream dataStream = FactoryResetResponse.GetResponseStream())
+            WebResponse Response = Request.GetResponse();
+            using (Stream dataStream = Response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
                 Var.responseFromR2000 = reader.ReadToEnd();
@@ -174,10 +174,10 @@ namespace R2000_Library
         //Factory reset of the device
         public void factoryreset()
         {
-            WebRequest FactoryResetRequest = WebRequest.Create("http://" + Var.IPaddress + "/cmd/factory_reset");
+            WebRequest Request = WebRequest.Create("http://" + Var.IPaddress + "/cmd/factory_reset");
             Console.WriteLine("Factory Resetting R2000 \r\nSending: http://" + Var.IPaddress + "/cmd/factory_reset");
-            WebResponse FactoryResetResponse = FactoryResetRequest.GetResponse();
-            using (Stream dataStream = FactoryResetResponse.GetResponseStream())
+            WebResponse Response = Request.GetResponse();
+            using (Stream dataStream = Response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
                 Var.responseFromR2000 = reader.ReadToEnd();

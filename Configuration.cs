@@ -18,7 +18,7 @@ namespace R2000_Library
             string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work, or/and you need to add the file location to were your program operates from.
 
             // if there are any new elements added to config.txt, they need to be added below in the exact spelling. Then store the value read in Var.***** below. 
-            string[] stringcharacteristics = { "IPaddress", "SamplesPerScan", "ScanDirection", "ScanFrequency", "FilterType", "FilterWidth", "ScanDataType", "ScanStartAngle", "ScanFieldAngle", "MaxRange", "HMIDisplayType", "HMIDisplayText1", "HMIDisplayText2","SkipScans","Watchdog","WatchdogTimeout"};
+            string[] stringcharacteristics = { "IPaddress", "SamplesPerScan", "ScanDirection", "ScanFrequency", "FilterType", "FilterWidth", "ScanDataType", "ScanStartAngle", "ScanFieldAngle", "MaxRange", "HMIDisplayMode", "HMIDisplayText1", "HMIDisplayText2","SkipScans","Watchdog","WatchdogTimeout"};
 
             string[] stringvariables = new string[stringcharacteristics.GetLength(0)];
 
@@ -74,7 +74,7 @@ namespace R2000_Library
                     Var.maxnumpointsscan = Math.Round((Var.SamplesPerScan / 360) * Convert.ToInt32(stringvariables[8]) / Var.FilterWidth);
                 }
 
-                Var.HMIDisplayType = stringvariables[10];
+                Var.HMIDisplayMode = stringvariables[10];
                 Var.HMIDisplayText1 = stringvariables[11];
                 Var.HMIDisplayText2 = stringvariables[12];
                 Var.SkipScans = Convert.ToInt32(stringvariables[13]);

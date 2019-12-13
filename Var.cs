@@ -13,7 +13,7 @@ namespace R2000_Library
         public static int ScanFrequency; //R2000 spin frequency;integer values from 10-100hz, depending on model      
         public static string FilterType; //Setting the filter type; none, average, median, maximum, remission
         public static int FilterWidth; //How many points are grouped together for the filter; Valid Values are 2,4,8,16 
-        public static string HMIDisplayType; //stores what type of display you wish to see
+        public static string HMIDisplayMode; //stores what type of display you wish to see
         public static string HMIDisplayText1; //top line text
         public static string HMIDisplayText2; //bottom line text
 
