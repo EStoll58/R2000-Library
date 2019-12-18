@@ -23,6 +23,7 @@ namespace R2000_Library
         public static int SkipScans;
         public static string Watchdog;
         public static int WatchdogTimout;
+
         public static int maxrange; //used in data.background(); to create a background suppression feature
 
         // Retrieved information from R2000
@@ -45,7 +46,7 @@ namespace R2000_Library
         public static int lastpacketnumber;
         public static string responseFromR2000;
         public static int numscanpoints;
-        public static decimal[] angulardata;
+        public static double[] angulardata;
         public static int[] measurmentdata;
         public static int[] background;
         

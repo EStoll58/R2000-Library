@@ -15,10 +15,10 @@ namespace R2000_Library
             // There might be problems reading were the Config.txt file is. please see both options below. 
             //string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\Config.txt"); // this is were the file need to be to run, but different software sometimes has problems. 
 
-            string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work, or/and you need to add the file location to were your program operates from.
+            string text = System.IO.File.ReadAllText(Environment.CurrentDirectory + @"\..\..\..\Config.txt"); //When switching to Visual Studio, I had to go up 3 files for the debug to work, or/and you need to add the file location to were your program operates from.
 
             // if there are any new elements added to config.txt, they need to be added below in the exact spelling. Then store the value read in Var.***** below. 
-            string[] stringcharacteristics = { "IPaddress", "SamplesPerScan", "ScanDirection", "ScanFrequency", "FilterType", "FilterWidth", "ScanDataType", "ScanStartAngle", "ScanFieldAngle", "MaxRange", "HMIDisplayMode", "HMIDisplayText1", "HMIDisplayText2","SkipScans","Watchdog","WatchdogTimeout"};
+            string[] stringcharacteristics = { "IPaddress", "SamplesPerScan", "ScanDirection", "ScanFrequency", "FilterType", "FilterWidth", "HMIDisplayMode", "HMIDisplayText1", "HMIDisplayText2", "ScanDataType", "ScanStartAngle", "ScanFieldAngle","SkipScans","Watchdog","WatchdogTimeout","MaxRange"};
 
             string[] stringvariables = new string[stringcharacteristics.GetLength(0)];
 
@@ -61,25 +61,27 @@ namespace R2000_Library
                 Var.ScanFrequency = Convert.ToInt32(stringvariables[3]);
                 Var.FilterType = stringvariables[4];
                 Var.FilterWidth = Convert.ToInt32(stringvariables[5]);
-                Var.ScanDataType = stringvariables[6];
-                Var.ScanStartAngle = (Convert.ToInt32(stringvariables[7]) * 10000);
-                Var.ScanFieldAngle = Convert.ToInt32(stringvariables[8]);
-                Var.maxrange = Convert.ToInt32(stringvariables[9]);
+                Var.HMIDisplayMode = stringvariables[6];
+                Var.HMIDisplayText1 = stringvariables[7];
+                Var.HMIDisplayText2 = stringvariables[8];
+
+                Var.ScanDataType = stringvariables[9];
+                Var.ScanStartAngle = (Convert.ToInt32(stringvariables[10]) * 10000);
+                Var.ScanFieldAngle = Convert.ToInt32(stringvariables[11]);
+                Var.SkipScans = Convert.ToInt32(stringvariables[12]);
+                Var.Watchdog = stringvariables[13];
+                Var.WatchdogTimout = Convert.ToInt32(stringvariables[14]);
+
+                Var.maxrange = Convert.ToInt32(stringvariables[15]);
+
                 if (Var.FilterType == "none")
                 {
-                    Var.maxnumpointsscan = Math.Round((Var.SamplesPerScan / 360) * Convert.ToInt32(stringvariables[8]));
+                    Var.maxnumpointsscan = Math.Round((Var.SamplesPerScan / 360) * Var.ScanFieldAngle);
                 }
                 else
                 {
-                    Var.maxnumpointsscan = Math.Round((Var.SamplesPerScan / 360) * Convert.ToInt32(stringvariables[8]) / Var.FilterWidth);
+                    Var.maxnumpointsscan = Math.Round((Var.SamplesPerScan / 360) * Var.ScanFieldAngle / Var.FilterWidth);
                 }
-
-                Var.HMIDisplayMode = stringvariables[10];
-                Var.HMIDisplayText1 = stringvariables[11];
-                Var.HMIDisplayText2 = stringvariables[12];
-                Var.SkipScans = Convert.ToInt32(stringvariables[13]);
-                Var.Watchdog = stringvariables[14];
-                Var.WatchdogTimout = Convert.ToInt32(stringvariables[15]);
 
                 Console.WriteLine("Success!\r\n");
             }

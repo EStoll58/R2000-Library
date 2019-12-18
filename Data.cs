@@ -200,7 +200,7 @@ namespace R2000_Library
             //Console.WriteLine("Scan points = " + Var.numscanpoints);
 
             //Initializing angular increment array
-            Var.angulardata = new decimal[Var.numscanpoints];
+            Var.angulardata = new double[Var.numscanpoints];
 
             decimal degrees = Math.Round(decimal.Divide(Convert.ToInt32(Var.ScanFieldAngle), Convert.ToInt32(Var.numscanpoints)), 6);
             //Console.WriteLine("degrees = " + degrees);
@@ -212,14 +212,14 @@ namespace R2000_Library
                 {
                     for (int i = 0; i < Var.numscanpoints; i++)
                     {
-                        Var.angulardata[i] = ((Var.ScanStartAngle / 10000) + (i * degrees));
+                        Var.angulardata[i] = (Decimal.ToDouble((Var.ScanStartAngle / 10000) + (i * degrees)));
                     }
                 }
                 else
                 {
                     for (int i = 0; i < Var.numscanpoints; i++)
                     {
-                        Var.angulardata[i] = ((Var.ScanStartAngle / 10000) - (i * degrees));
+                        Var.angulardata[i] = (Decimal.ToDouble((Var.ScanStartAngle / 10000) - (i * degrees)));
                     }
                 }
             }
@@ -229,14 +229,14 @@ namespace R2000_Library
                 {
                     for (int i = 0; i < Var.numscanpoints; i++)
                     {
-                        Var.angulardata[i] = ((Var.ScanStartAngle / 10000) + (i * degrees) + (degrees / 2));
+                        Var.angulardata[i] = (Decimal.ToDouble((Var.ScanStartAngle / 10000) + (i * degrees) + (degrees / 2)));
                     }
                 }
                 else
                 {
                     for (int i = 0; i < Var.numscanpoints; i++)
                     {
-                        Var.angulardata[i] = ((Var.ScanStartAngle / 10000) - (i * degrees) - (degrees / 2));
+                        Var.angulardata[i] = (Decimal.ToDouble((Var.ScanStartAngle / 10000) - (i * degrees) - (degrees / 2)));
                     }
                 }
             }
